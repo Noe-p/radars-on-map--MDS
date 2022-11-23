@@ -11,13 +11,13 @@ function addMarkerOnMap(latitude, longitude, map) {
   L.marker([latitude, longitude]).addTo(map);
 }
 
-function addRadarsOnMap(map) {
-  Papa.parse('./data/radars.csv', {
+function addPointCSVOnMap(map, path) {
+  Papa.parse(path, {
     header: true,
     download: true,
     dynamicTyping: true,
     complete: function (results) {
-      radars = results.data;
+      const radars = results.data;
       radars.forEach((radar) => {
         if (radar.latitude && radar.longitude)
           addMarkerOnMap(radar.latitude, radar.longitude, map);
@@ -27,4 +27,5 @@ function addRadarsOnMap(map) {
 }
 
 const map = createMap();
-addRadarsOnMap(map);
+addPointCSVOnMap(map, './data/radars.csv');
+addPointCSVOnMap(map, './data/adresses.geocoded.csv');
